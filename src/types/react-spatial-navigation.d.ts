@@ -23,7 +23,7 @@ declare module '@noriginmedia/react-spatial-navigation' {
 
     export function initNavigation(config?: Record<string, unknown>): void;
 
-    export function withFocusable<P = Record<string, unknown>>(
+    export function withFocusable<Props = Record<string, unknown>>(
         config?: WithFocusableConfig
-    ): (component: React.ComponentType<P & FocusableInjectedProps>) => React.ComponentType<P>;
+    ): (component: React.ComponentType<Props & FocusableInjectedProps>) => React.ComponentType<Props>;
 }

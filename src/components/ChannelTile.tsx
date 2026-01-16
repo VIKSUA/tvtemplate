@@ -3,11 +3,14 @@ import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import { FocusableInjectedProps, withFocusable } from '../navigation/spatial';
 import { convertPxToVw, tvTheme } from '../theme/tvTheme';
 
-type Props = FocusableInjectedProps & {
+type OwnProps = {
     title: string;
+    focusKey?: string;
     onEnterPress?: () => void;
     onBecameFocused?: () => void;
 };
+
+type Props = OwnProps & FocusableInjectedProps;
 
 const ChannelTile = ({ title, focused, onEnterPress, onBecameFocused }: Props) => {
     return (
@@ -34,11 +37,11 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         marginRight: convertPxToVw(24),
         marginBottom: convertPxToVw(24),
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     cardFocused: {
         borderColor: tvTheme.colorAccent,
         transform: [{ scale: 1.02 }],
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     title: {
         color: tvTheme.colorGrayLight,
         fontSize: convertPxToVw(24),
@@ -47,4 +50,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default withFocusable()(ChannelTile);
+export default withFocusable<OwnProps>()(ChannelTile);

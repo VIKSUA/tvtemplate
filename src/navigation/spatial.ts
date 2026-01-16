@@ -20,9 +20,9 @@ export type WithFocusableConfig = {
     blockNavigationOut?: boolean;
 };
 
-type WithFocusable = <P = Record<string, unknown>>(
+type WithFocusable = <Props = Record<string, unknown>>(
     config?: WithFocusableConfig
-) => (component: React.ComponentType<P & FocusableInjectedProps>) => React.ComponentType<P>;
+) => (component: React.ComponentType<Props & FocusableInjectedProps>) => React.ComponentType<Props>;
 
 export const withFocusable: WithFocusable = (config) => {
     if (typeof window === 'undefined') {

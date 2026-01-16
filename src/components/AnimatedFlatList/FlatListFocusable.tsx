@@ -1,12 +1,12 @@
 import React from 'react';
-import { FlatList, ListRenderItemInfo } from 'react-native';
+import { FlatList, FlatListProps, ListRenderItemInfo } from 'react-native';
 import { FocusableInjectedProps, withFocusable } from '../../navigation/spatial';
 import RenderItem from './RenderItem';
 
-type Props<T> = FocusableInjectedProps & {
-    data: T[];
-    renderItem: (props: { item: T; index: number; onBecameFocused?: () => void }) => React.ReactElement | null;
-    keyExtractor: (item: T, index: number) => string;
+type OwnProps<Item> = {
+    data: Item[];
+    renderItem: (props: { item: Item; index: number; onBecameFocused?: () => void }) => React.ReactElement | null;
+    keyExtractor: (item: Item, index: number) => string;
     focusKeyId?: string;
     focusKeyName?: string;
     itemSize?: number;
@@ -19,7 +19,9 @@ type Props<T> = FocusableInjectedProps & {
     maxToRenderPerBatch?: number;
 };
 
-const FlatListFocusable = <T,>({
+type Props<Item> = OwnProps<Item> & FocusableInjectedProps;
+
+const FlatListFocusable = <Item,>({
     data,
     focusKeyId,
     focusKeyName,
@@ -31,8 +33,8 @@ const FlatListFocusable = <T,>({
     startFocusId,
     numColumns,
     ...otherProps
-}: Props<T>) => {
-    const flatListRef = React.useRef<FlatList<T>>(null);
+}: Props<Item>) => {
+    const flatListRef = React.useRef<FlatList<Item>>(null);
 
     const setFocusKey = (id: string | number) => {
         if (!focusKeyName) return undefined;
@@ -41,18 +43,13 @@ const FlatListFocusable = <T,>({
 
     const getIndex = () => {
         if (!focusKeyId || startFocusId === undefined) return 0;
-        const index = data.findIndex((item: T) => (item as Record<string, unknown>)[focusKeyId] === startFocusId);
+        const index = data.findIndex(
+            (item: Item) => (item as Record<string, unknown>)[focusKeyId] === startFocusId
+        );
         return index > 0 ? index : 0;
     };
 
-    const config: Partial<FlatList<T>> & {
-        getItemLayout?: (data: ArrayLike<T> | null | undefined, index: number) => {
-            length: number;
-            offset: number;
-            index: number;
-        };
-        initialScrollIndex?: number;
-    } = {
+    const config: Partial<FlatListProps<Item>> = {
         scrollEnabled: false,
     };
 
@@ -86,7 +83,7 @@ const FlatListFocusable = <T,>({
             ref={flatListRef}
             data={data}
             numColumns={numColumns}
-            renderItem={(props: ListRenderItemInfo<T>) => (
+            renderItem={(props: ListRenderItemInfo<Item>) => (
                 <RenderItem
                     item={props.item}
                     index={props.index}
@@ -105,4 +102,6 @@ const FlatListFocusable = <T,>({
 
 const areEqual = () => true;
 
-export default React.memo(withFocusable()(FlatListFocusable), areEqual) as typeof FlatListFocusable;
+const FlatListFocusableTyped = FlatListFocusable as React.ComponentType<OwnProps<unknown> & FocusableInjectedProps>;
+
+export default React.memo(withFocusable<OwnProps<unknown>>()(FlatListFocusableTyped), areEqual) as typeof FlatListFocusable;

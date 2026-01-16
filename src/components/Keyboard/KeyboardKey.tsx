@@ -9,10 +9,11 @@ export type KeyboardKeyConfig = {
     wide?: boolean;
 };
 
-type Props = KeyboardKeyConfig &
-    FocusableInjectedProps & {
-        onEnterPress?: () => void;
-    };
+type OwnProps = KeyboardKeyConfig & {
+    onEnterPress?: () => void;
+};
+
+type Props = OwnProps & FocusableInjectedProps;
 
 const KeyboardKey = ({ focused, title, onEnterPress, wide }: Props) => {
     return (
@@ -34,13 +35,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: convertPxToVw(4),
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     keyWide: {
         width: convertPxToVw(134),
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     keyFocused: {
         backgroundColor: tvTheme.colorAccent,
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     keyText: {
         color: tvTheme.colorGrayLight,
         fontSize: convertPxToVw(21),
@@ -49,4 +50,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default withFocusable()(KeyboardKey);
+export default withFocusable<OwnProps>()(KeyboardKey);

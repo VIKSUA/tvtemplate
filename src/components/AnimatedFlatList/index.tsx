@@ -3,12 +3,12 @@ import { View } from 'react-native';
 import Preloader from '../Preloader';
 import FlatListFocusable from './FlatListFocusable';
 
-type Props<T> = {
-    data: T[];
+type Props<Item> = {
+    data: Item[];
     everyDataFocus?: boolean;
     heightList?: number;
-    renderItem: (props: { item: T; index: number }) => React.ReactElement | null;
-    keyExtractor: (item: T, index: number) => string;
+    renderItem: (props: { item: Item; index: number; onBecameFocused?: () => void }) => React.ReactElement | null;
+    keyExtractor: (item: Item, index: number) => string;
     numColumns?: number;
     itemSize?: number;
     startFocusId?: string | number;
@@ -19,12 +19,12 @@ type Props<T> = {
     maxToRenderPerBatch?: number;
 };
 
-const AnimatedFlatList = <T,>({
+const AnimatedFlatList = <Item,>({
     data = [],
     everyDataFocus = false,
     heightList,
     ...props
-}: Props<T>) => {
+}: Props<Item>) => {
     const [startFocus, setStartFocus] = React.useState(false);
 
     return (

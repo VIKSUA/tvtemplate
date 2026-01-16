@@ -4,14 +4,17 @@ import { FocusableInjectedProps, withFocusable } from '../../navigation/spatial'
 import InputCursor from './InputCursor';
 import { convertPxToVw, tvTheme } from '../../theme/tvTheme';
 
-type Props = FocusableInjectedProps & {
+type OwnProps = {
     label: string;
     value: string;
+    focusKey?: string;
     mask?: boolean;
     onEnterPress?: () => void;
     cursorIndex: number;
     active?: boolean;
 };
+
+type Props = OwnProps & FocusableInjectedProps;
 
 const FocusableInput = ({ label, value, mask, focused, onEnterPress, cursorIndex, active }: Props) => {
     const inputChars = value.split('');
@@ -67,8 +70,8 @@ const styles = StyleSheet.create({
     inputText: {
         color: tvTheme.colorGrayLight,
         fontSize: convertPxToVw(28),
-        lineHeight: '1.357em',
+        lineHeight: convertPxToVw(38),
     },
 });
 
-export default withFocusable()(FocusableInput);
+export default withFocusable<OwnProps>()(FocusableInput);

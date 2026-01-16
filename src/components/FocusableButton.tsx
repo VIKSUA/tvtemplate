@@ -3,10 +3,13 @@ import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import { FocusableInjectedProps, withFocusable } from '../navigation/spatial';
 import { convertPxToVw, tvTheme } from '../theme/tvTheme';
 
-type Props = FocusableInjectedProps & {
+type OwnProps = {
     title: string;
+    focusKey?: string;
     onEnterPress?: () => void;
 };
+
+type Props = OwnProps & FocusableInjectedProps;
 
 const FocusableButton = ({ title, focused, onEnterPress }: Props) => {
     return (
@@ -25,10 +28,10 @@ const styles = StyleSheet.create({
         backgroundColor: tvTheme.colorGrayBlue,
         justifyContent: 'center',
         marginTop: convertPxToVw(20),
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     buttonFocused: {
         backgroundColor: tvTheme.colorAccent,
-    } as ViewStyle,
+    } as unknown as ViewStyle,
     text: {
         color: tvTheme.colorGrayLight,
         fontSize: convertPxToVw(20),
@@ -36,4 +39,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default withFocusable()(FocusableButton);
+export default withFocusable<OwnProps>()(FocusableButton);

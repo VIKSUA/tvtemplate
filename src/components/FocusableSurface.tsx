@@ -19,7 +19,7 @@ const FocusableSurface = ({ onEnterPress, style, children }: Props) => {
 const styles = StyleSheet.create({
     surface: {
         flex: 1,
-    } as ViewStyle,
+    } as unknown as ViewStyle,
 });
 
 export default withFocusable()(FocusableSurface);
