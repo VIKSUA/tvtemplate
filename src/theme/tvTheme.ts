@@ -1,5 +1,27 @@
-export const convertPxToVw = (px: number) => `${(px / 1920) * 100}vw`;
-export const convertPxToVh = (px: number) => `${(px / 1080) * 100}vh`;
+import { Dimensions } from 'react-native';
+
+const DESIGN_WIDTH = 1920;
+const DESIGN_HEIGHT = 1080;
+
+const getScreenScale = () => {
+    const { width, height } = Dimensions.get('window');
+    const safeWidth = width > 0 ? width : DESIGN_WIDTH;
+    const safeHeight = height > 0 ? height : DESIGN_HEIGHT;
+    return {
+        scaleW: safeWidth / DESIGN_WIDTH,
+        scaleH: safeHeight / DESIGN_HEIGHT,
+    };
+};
+
+export const convertPxToVw = (px: number) => {
+    const { scaleW } = getScreenScale();
+    return px * scaleW;
+};
+
+export const convertPxToVh = (px: number) => {
+    const { scaleH } = getScreenScale();
+    return px * scaleH;
+};
 
 export const tvTheme = {
     colorAccent: 'rgba(62,112,234,1)',

@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     title: {
         color: tvTheme.colorGrayLight,
         fontSize: convertPxToVw(32),
-        lineHeight: '1em',
+        lineHeight: convertPxToVw(40),
         fontWeight: '700',
         marginBottom: convertPxToVw(32),
     },
