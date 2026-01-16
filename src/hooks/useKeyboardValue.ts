@@ -2,11 +2,16 @@ import { useCallback, useRef, useState } from 'react';
 
 type KeyboardPayload = { title: string; name?: string };
 
-export function useKeyboardValue(initialValue: string) {
+type KeyboardValueOptions = {
+    maxLength?: number;
+};
+
+export function useKeyboardValue(initialValue: string, options: KeyboardValueOptions = {}) {
     const [value, setValue] = useState(initialValue);
     const [cursorIndex, setCursorIndex] = useState(initialValue.length);
     const valueRef = useRef(initialValue);
     const cursorRef = useRef(initialValue.length);
+    const maxLengthRef = useRef(options.maxLength);
     const setValueSafe = useCallback((next: string) => {
         valueRef.current = next;
         setValue(next);
@@ -22,6 +27,7 @@ export function useKeyboardValue(initialValue: string) {
             let nextIndex = cursorRef.current;
 
             const add = (char: string) => {
+                if (maxLengthRef.current && nextValue.length >= maxLengthRef.current) return;
                 nextValue.splice(nextIndex, 0, char);
                 nextIndex += 1;
             };

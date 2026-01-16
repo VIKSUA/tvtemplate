@@ -14,10 +14,10 @@ const LoginScreen = ({ setFocus }: Props) => {
     const { navigate } = useContext(NavigationContext);
     const { openKeyboard, inputFocusKey } = useContext(KeyboardContext);
     const emailInput = useKeyboardValue('demo@tv.app');
-    const passwordInput = useKeyboardValue('123456');
+    const codeInput = useKeyboardValue('1234', { maxLength: 4 });
 
     const emailFocusKey = useMemo(() => 'Email', []);
-    const passwordFocusKey = useMemo(() => 'Password', []);
+    const codeFocusKey = useMemo(() => 'Code', []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -45,16 +45,16 @@ const LoginScreen = ({ setFocus }: Props) => {
                     }
                 />
                 <FocusableInput
-                    focusKey={passwordFocusKey}
-                    label="Password"
-                    value={passwordInput.value}
-                    cursorIndex={passwordInput.cursorIndex}
-                    active={inputFocusKey === passwordFocusKey}
-                    mask
+                    focusKey={codeFocusKey}
+                    label="Code"
+                    value={codeInput.value}
+                    cursorIndex={codeInput.cursorIndex}
+                    active={inputFocusKey === codeFocusKey}
                     onEnterPress={() =>
                         openKeyboard({
-                            inputFocusKey: passwordFocusKey,
-                            inputSetValue: passwordInput.inputSetValue,
+                            inputFocusKey: codeFocusKey,
+                            inputSetValue: codeInput.inputSetValue,
+                            inputType: 'number',
                         })
                     }
                 />
