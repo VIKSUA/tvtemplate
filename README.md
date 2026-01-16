@@ -1,5 +1,8 @@
 # tvtemplate
 
+## Demo
+- GitHub Pages: https://viksua.github.io/tvtemplate/
+
 Small TV-focused ReNative template: login with an on-screen keyboard, a channel grid, and a full-screen player. UI-only demo with no real backend or authentication.
 
 ## Features
